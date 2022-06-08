@@ -218,4 +218,61 @@ def permutations(array)
     return new_arr
 end
 
-p permutations([1,2,3,4])
+# p permutations([1,2,3,4])
+# def
+# def make_change()
+def greedy_make_change(amount, coins)
+    return [] if amount <= 0
+    biggest_coin = coins[0]
+    if coins.length == 1
+        return [biggest_coin] + greedy_make_change(amount - biggest_coin, coins)
+    end
+    total_payment = amount/biggest_coin
+    arr = []
+    total_payment.times do 
+        arr << biggest_coin
+    end
+    return arr + greedy_make_change(amount - total_payment*biggest_coin, coins.drop(1))
+
+
+
+end
+
+# p greedy_make_change(10, [1])
+# p greedy_make_change(77, [10,7,1])
+
+
+
+def make_better_change(amount, coins)
+    return [] if amount <= 0
+    if coins.length == 1
+        return [coins[0]] + make_better_change(amount - coins[0], [coins[0]])
+    end
+    arr = []
+    coins.each do |el|
+        arr += [el] if el <= amount
+    end
+    coins = arr.dup
+    # if (coins[0...-1].all? {|el| el > amount})
+    #     return make_better_change(amount - coins[-1], [coins[-1]])
+    # end
+    coins.each do |el|
+        return [el] if el == amount
+    end
+    coin = coins.inject do |acc, el|
+        next_coin = make_better_change(amount - el, coins)
+        current_coin = make_better_change(amount - acc, coins)
+        if next_coin.length < current_coin.length
+            el 
+        else
+            acc
+        end
+    end
+    #p amount-coin
+    return [coin] + make_better_change(amount-coin, coins)
+
+end
+
+p make_better_change(10, [1])
+p make_better_change(16, [10,8,1]) 
+#p make_better_change(77, [10,7,1]) 
