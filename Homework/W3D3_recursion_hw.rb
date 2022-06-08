@@ -61,3 +61,63 @@ p reverse("id") # => "di"
 p reverse("") # => ""
 puts
 
+def quicksort(arr)
+    return arr if arr.length < 2
+    middle = arr[0]
+    left = []
+    right = []
+    arr.drop(1).each do |el|
+        left << el if el < middle
+        right << el if el >= middle
+    end
+
+    return quicksort(left) + [ middle ] + quicksort(right)
+
+end
+puts "quick sort"
+arr = [1,5,3,2,7,5,4,3,7,2,1]
+p arr
+print quicksort(arr)
+puts
+
+
+# [0,1] n == 2
+# [0] n == 1
+
+def all_fibs(n)
+    $count += 1
+    return [] if n == 0
+    return [0] if n == 1
+    return [0,1] if n == 2
+    # all_fibs[3] = [0,1,1]
+    arr = all_fibs(n-1)
+    #return arr + [ arr[-2..-1].sum ] 
+    return all_fibs(n-1) + [all_fibs(n-1)[-1] + all_fibs(n-1)[-2]]
+end
+
+# arr = []
+# (0..10).each do |i|
+#     $count = 0
+#     all_fibs(i)
+#     arr << [i,$count]
+# end
+# p arr
+
+puts
+def pascal(n)
+    return [] if n == 0
+    return [1] if n == 1
+    return [1,1] if n == 2
+    arr = []
+    pascal_before = pascal(n-1)
+    (0...pascal_before.length - 1).each do |i|
+        arr << pascal_before[i] + pascal_before[i+1]
+    end
+    return [1] + arr + [1]
+end
+
+p pascal(3)
+p pascal(4)
+p pascal(5)
+p pascal(6)
+p pascal(7)
