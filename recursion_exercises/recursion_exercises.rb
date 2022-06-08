@@ -100,16 +100,16 @@ def all_fibs(n)
 end
 
 def bsearch(array,target)
-    if array.length < 1
-        return nil
-    end
+    # if array.length < 1
+    #     return nil
+    # end
+    return nil if array.length < 1
     if array.length == 1
         return 0 if target == array[0]
         return nil
     end
     mid_idx = array.length/2
     middle = array[mid_idx]
-    #p "middle is #{middle}"
     return mid_idx if middle == target
     if (middle < target)
         var = bsearch(array[mid_idx + 1 .. - 1 ], target)
@@ -124,10 +124,62 @@ def bsearch(array,target)
     nil
 end
 
-p bsearch([1, 2, 3], 1) # => 0
-p bsearch([2, 3, 4, 5], 3) # => 1
-p bsearch([2, 4, 6, 8, 10], 6) # => 2
-p bsearch([1, 3, 4, 5, 9], 5) # => 3
-p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
-p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
-p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+# p bsearch([1, 2, 3], 1) # => 0
+# p bsearch([2, 3, 4, 5], 3) # => 1
+# p bsearch([2, 4, 6, 8, 10], 6) # => 2
+# p bsearch([1, 3, 4, 5, 9], 5) # => 3
+# p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
+# p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
+# p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+
+def merge_sort(array)
+    if array.length <= 1
+        return array
+    end
+    middle = array.length/2
+    p "middle is #{middle}"
+    left = array[0...middle]
+    right = array[middle..-1]
+    puts
+    p left
+    p right
+    left = merge_sort(left)
+    right = merge_sort(right)
+
+    
+
+    return merge(left,right)
+end
+
+def merge(arr1, arr2)
+    result = []
+    while arr1.length > 0 && arr2.length > 0 do
+        if arr1[0] <= arr2[0]
+            result << arr1.shift
+        else
+            result << arr2.shift
+        end
+    end
+
+    while arr1.length > 0 do
+        min1 = arr1.inject do |acc,el|
+            el < acc ? el : acc
+        end
+        result << min1
+        arr1.slice!(arr1.index(min1))
+    end
+
+    while arr2.length > 0 do 
+        min2 = arr2.inject do |acc,el|
+            el < acc ? el : acc
+        end
+        
+        result << min2
+        arr2.slice!(arr2.index(min2))
+    end
+    p result
+    return result
+end
+
+arr = [5,3,7,3,2,4,5,9]
+p merge_sort(arr)
