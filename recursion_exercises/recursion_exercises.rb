@@ -181,5 +181,41 @@ def merge(arr1, arr2)
     return result
 end
 
-arr = [5,3,7,3,2,4,5,9]
-p merge_sort(arr)
+# arr = [5,3,7,3,2,4,5,9]
+# p merge_sort(arr)
+
+
+def subsets(array)
+    return [[]] if array.length == 0
+    arr = []
+    array.each_with_index do |el,i|
+        var = subsets(array[0...i] + array[i+1..-1])
+        arr += var #if !arr.include?(var)
+    end
+    return arr.uniq + [array]
+end
+# p subsets([]) # => [[]]
+# p subsets([1]) # => [[], [1]]
+# p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+# p subsets([1, 2, 3])
+# => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+
+def permutations(array)
+    return [array] if array.length <= 1
+    new_arr = []
+    (0...array.length).each do |i|
+        var = array[0...i] + array[i+1..-1]
+        # p i
+        # p array[i]
+        # p var
+        perms = permutations(array[0...i] + array[i+1..-1])
+        perms.each do |j|
+            new_arr << [array[i]] + j
+        end
+        
+    end
+
+    return new_arr
+end
+
+p permutations([1,2,3,4])
